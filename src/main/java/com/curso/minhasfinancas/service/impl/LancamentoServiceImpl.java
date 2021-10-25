@@ -18,12 +18,18 @@ import com.curso.minhasfinancas.model.enums.StatusLancamento;
 import com.curso.minhasfinancas.model.repository.LancamentoRepository;
 import com.curso.minhasfinancas.service.LancamentoService;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @Service
 public class LancamentoServiceImpl implements LancamentoService {
 
 	@Autowired
 	private LancamentoRepository repository;
 
+	
+	
+	
+	
+	
 	@Override
 	@Transactional
 	public Lancamento salvar(Lancamento lancamento) {
@@ -31,7 +37,13 @@ public class LancamentoServiceImpl implements LancamentoService {
 		lancamento.setStatus(StatusLancamento.PENDENTE);
 		return repository.save(lancamento);
 	}
+	
+	
+	
+	
 
+	
+	
 	@Override
 	@Transactional
 	public Lancamento atualizar(Lancamento lancamento) {
@@ -46,17 +58,25 @@ public class LancamentoServiceImpl implements LancamentoService {
 		Objects.requireNonNull(lancamento.getId());
 		repository.delete(lancamento);
 	}
+	
+	
+	
+	
 
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly = true)
 	public List<Lancamento> buscar(Lancamento lancamentoFiltro) {
-		@SuppressWarnings("rawtypes")
+		
 		Example exemple = Example.of(lancamentoFiltro,
 				ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING));
 		
 		return repository.findAll(exemple);
 	}
+	
+	
+	
+	
+	
 
 	@Override
 	public void atualizarStatus(Lancamento lancamento, StatusLancamento status) {
@@ -64,6 +84,11 @@ public class LancamentoServiceImpl implements LancamentoService {
 		atualizar(lancamento);
 	}
 
+	
+	
+	
+	
+	
 	@Override
 	public void validar(Lancamento lancamento) {
 		if (lancamento.getDescricao() == null || lancamento.getDescricao().trim().equals("")) {
@@ -91,6 +116,10 @@ public class LancamentoServiceImpl implements LancamentoService {
 		}		
 		
 	}
+	
+	
+	
+	
 
 	@Override
 	public Optional<Lancamento> obterPorId(Long id) {
