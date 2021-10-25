@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.curso.minhasfinancas.api.dto.AtualizaStatusDTO;
 import com.curso.minhasfinancas.api.dto.LancamentoDTO;
 import com.curso.minhasfinancas.exception.RegraNegocioException;
 import com.curso.minhasfinancas.model.entity.Lancamento;
@@ -79,6 +80,33 @@ public class LancamentoResource {
 	
 	
 	
+	@PutMapping("{id}/atualiza-status")
+	public ResponseEntity atualizarStatus(@PathVariable("id") Long id, @RequestBody AtualizaStatusDTO dto) {
+		return service.obterPorId(id).map(entity -> {
+			StatusLancamento statusSelecionado = StatusLancamento.valueOf(dto.getStatus());
+			
+			if (statusSelecionado == null) {
+				return ResponseEntity.badRequest().body("nao foi possivel atualizar o status, envie um status valido");
+			}
+			
+			try {
+				entity.setStatus(statusSelecionado);
+				service.atualizar(entity);
+				return ResponseEntity.ok(entity);
+			} catch (RegraNegocioException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
+			
+			
+		}).orElseGet(() -> new ResponseEntity("Lancamento nao encontrado na base", HttpStatus.BAD_REQUEST));
+	}
+	
+	
+	
+	
+	
+	
+	
 	@DeleteMapping("{id}")
 	public ResponseEntity deletar(@PathVariable("id") Long id) {
 		return service.obterPorId(id).map(entidade -> {
@@ -112,6 +140,9 @@ public class LancamentoResource {
 		List<Lancamento> lancamento = service.buscar(lancamentoFiltro);
 		return ResponseEntity.ok(lancamento);
 	}
+	
+	
+	
 	
 	
 	
