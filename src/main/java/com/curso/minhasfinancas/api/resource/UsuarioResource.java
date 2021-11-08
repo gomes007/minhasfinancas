@@ -45,9 +45,7 @@ public class UsuarioResource {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
-	
-	
+		
 	
 	
 
@@ -55,7 +53,10 @@ public class UsuarioResource {
 	@PostMapping
 	public ResponseEntity salvar(@RequestBody UsuarioDTO dto) {
 
-		Usuario usuario = Usuario.builder().nome(dto.getNome()).email(dto.getEmail()).senha(dto.getSenha()).build();
+		Usuario usuario = Usuario.builder()
+				.nome(dto.getNome())
+				.email(dto.getEmail())
+				.senha(dto.getSenha()).build();
 
 		try {
 			Usuario usuarioSalvo = service.salvarUsuario(usuario);
@@ -65,8 +66,7 @@ public class UsuarioResource {
 		}
 	}
 	
-	
-	
+		
 	
 	
 	@GetMapping("/{id}/saldo")
