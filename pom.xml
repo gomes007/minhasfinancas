@@ -15,7 +15,7 @@
 	<name>minhasfinancas</name>
 	<description>aulas</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version></java.version>
 	</properties>
 
 	<dependencies>
@@ -82,6 +82,8 @@
 				<artifactId>heroku-maven-plugin</artifactId>
 				<version>2.0.8</version>
 			</plugin>
+
+
 		</plugins>
 	</build>
 
